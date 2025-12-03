@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · TerraScope{% endblock %}
+
+{% block content %}
+<h1 class="fw-bold mb-4">Land‑use & climate dashboard</h1>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card card-soft text-center p-3">
+            <div class="fw-bold h3 mb-1">{{ total_subscriptions|default:12 }}</div>
+            <div class="text-muted small">Active subscriptions</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-soft text-center p-3">
+            <div class="fw-bold h3 mb-1">{{ monitored_regions|default:48 }}</div>
+            <div class="text-muted small">Regions monitored</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-soft text-center p-3">
+            <div class="fw-bold h3 mb-1">{{ critical_alerts|default:5 }}</div>
+            <div class="text-muted small">Critical alerts</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-soft text-center p-3">
+            <div class="fw-bold h3 mb-1">{{ api_usage|default:2100 }}</div>
+            <div class="text-muted small">API calls (24h)</div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-soft mb-4">
+    <div class="card-body">
+        <h5 class="fw-semibold mb-2">Recent alerts</h5>
+        <p class="text-muted small mb-3">
+            This can later be backed by real data; for now, you can show demo rows.
+        </p>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Region</th>
+                        <th>Severity</th>
+                        <th>Detected</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alert in alerts %}
+                    <tr>
+                        <td>{{ alert.type }}</td>
+                        <td>{{ alert.region }}</td>
+                        <td><span class="badge bg-danger">{{ alert.severity }}</span></td>
+                        <td>{{ alert.detected_at }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-muted">No alerts configured yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

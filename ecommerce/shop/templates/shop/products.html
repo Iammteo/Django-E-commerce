@@ -1,23 +1,53 @@
 {% extends "base.html" %}
-{% block title %}Products{% endblock %}
+{% block title %}Products · TerraScope{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Products</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="fw-bold mb-0">Analytics products</h1>
+        <p class="text-muted mb-0">
+            Dashboards, on‑demand imagery and geospatial APIs for governments, NGOs and enterprises.
+        </p>
+    </div>
+    <a href="/pricing/" class="btn btn-outline-primary d-none d-md-inline-flex">
+        View pricing tiers
+    </a>
+</div>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for product in products %}
     <div class="col">
-        <div class="card h-100">
-            <img src="{{ product.image_url }}" class="card-img-top" alt="{{ product.name }}">
+        <div class="card card-soft h-100">
             <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
-                <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">
-                    View Details
-                </a>
+                <span class="badge bg-secondary mb-2">
+                    {{ product.category|default:"Insight" }}
+                </span>
+                <h5 class="card-title fw-semibold">{{ product.name }}</h5>
+                <p class="card-text text-muted">
+                    {{ product.description|truncatewords:25 }}
+                </p>
+                <ul class="small text-muted mb-3">
+                    <li>Update frequency: {{ product.update_frequency|default:"Daily" }}</li>
+                    <li>Coverage: {{ product.coverage|default:"Global" }}</li>
+                </ul>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="fw-bold">£{{ product.price }}/mo</span>
+                    <div>
+                        <a href="{% url 'product_detail' product.id %}"
+                           class="btn btn-outline-primary btn-sm me-1">
+                            Details
+                        </a>
+                        <a href="{% url 'subscribe' product.id %}"
+                           class="btn btn-primary btn-sm">
+                            Subscribe
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    {% empty %}
+    <p>No products configured yet.</p>
     {% endfor %}
 </div>
 {% endblock %}
