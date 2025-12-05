@@ -11,16 +11,35 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# ============ ADD THIS LINE ============
+AUTH_USER_MODEL = 'shop.CustomUser'
+# # =======================================
+
+
+
+# Stripe Configuration
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+
+# Later in the file, line 38:
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-gvbp$(j2zwbxda=wsqgjt%+h=01)pk_&$t6utoe8()r6*(hfka'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-gvbp$(j2zwbxda=wsqgjt%+h=01)pk_&$t6utoe8()r6*(hfka")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'shop',
 ]
 
@@ -55,10 +75,9 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True          # important for port 587
-
-EMAIL_HOST_USER = "olatuyoleomoyele40@gmail.com"     # your Gmail
-#EMAIL_HOST_PASSWORD = "xtshjvfyerpqefop"   # the 16-char app password
+EMAIL_USE_TLS = True        
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
