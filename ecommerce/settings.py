@@ -77,7 +77,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True          # important for port 587
 
 EMAIL_HOST_USER = "olatuyoleomoyele40@gmail.com"     # your Gmail
-EMAIL_HOST_PASSWORD = "xtshjvfyerpqefop"   # the 16-char app password
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
