@@ -1,10 +1,5 @@
-venv/
-__pycache__/
-*.py[cod]
-db.sqlite3
-*.log
-.vscode/
-staticfiles/
-media/
+git add ecommerce .gitignore
 
+git status
 
+.env
