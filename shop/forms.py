@@ -1,18 +1,39 @@
+# shop/forms.py
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
+from .models import CustomUser
 
-CustomUser = get_user_model()
+class SignUpForm(UserCreationForm):
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "you@example.com",
+            }
+        ),
+    )
+    username = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Username",
+            }
+        ),
+    )
 
-
-class CustomUserCreationForm(UserCreationForm):
-    class Meta(UserCreationForm.Meta):
-        model = CustomUser
-        # NOTE: no "username" here, only fields that actually exist on CustomUser
-        fields = ("email",)
-
-
-class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ("email",)
+        fields = ["username", "email", "password1", "password2"]
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Password'
+        })
+        self.fields['password2'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Confirm Password'
+        })

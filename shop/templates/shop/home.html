@@ -21,18 +21,18 @@
         <div class="col-lg-5 mt-4 mt-lg-0">
             <div class="card card-soft bg-white text-dark">
                 <div class="card-body">
-                    <h5 class="fw-bold mb-3">Today’s snapshot</h5>
+                    <h5 class="fw-bold mb-3">Today's snapshot</h5>
                     <div class="row text-center">
                         <div class="col-4">
-                            <div class="fw-bold h4 mb-0">{{ monitored_regions|default:42 }}</div>
+                            <div class="fw-bold h4 mb-0">{{ monitored_regions|default:"42" }}</div>
                             <small class="text-muted">Regions</small>
                         </div>
                         <div class="col-4">
-                            <div class="fw-bold h4 mb-0">{{ active_alerts|default:7 }}</div>
+                            <div class="fw-bold h4 mb-0">{{ active_alerts|default:"7" }}</div>
                             <small class="text-muted">Active alerts</small>
                         </div>
                         <div class="col-4">
-                            <div class="fw-bold h4 mb-0">{{ api_calls|default:1200 }}</div>
+                            <div class="fw-bold h4 mb-0">{{ api_calls|default:"1200" }}</div>
                             <small class="text-muted">API calls</small>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                     <span class="fw-bold">
                         £{{ product.price }}/mo
                     </span>
-                    <a href="{% url 'product_detail' product.id %}" class="btn btn-primary btn-sm">
+                    <a href="{% url 'products' %}" class="btn btn-primary btn-sm">
                         View details
                     </a>
                 </div>

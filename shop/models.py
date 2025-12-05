@@ -1,5 +1,40 @@
+# shop/models.py
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
+
+class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)
+    is_email_verified = models.BooleanField(default=False)
+    is_2fa_enabled = models.BooleanField(default=False)
+    totp_secret = models.CharField(max_length=32, blank=True, null=True)
+    email_verification_code = models.CharField(max_length=6, blank=True, null=True)
+    email_verification_expires_at = models.DateTimeField(blank=True, null=True)
+    
+    # Add these two lines to fix the ManyToManyField clash
+    groups = models.ManyToManyField(
+        'auth.Group',
+        verbose_name='groups',
+        blank=True,
+        help_text='The groups this user belongs to.',
+        related_name='customuser_set',
+        related_query_name='user',
+    )
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        verbose_name='user permissions',
+        blank=True,
+        help_text='Specific permissions for this user.',
+        related_name='customuser_set',
+        related_query_name='user',
+    )
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+    
+    def __str__(self):
+        return self.email
+
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
